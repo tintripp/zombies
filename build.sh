@@ -7,6 +7,7 @@ RUN=false
 
 BUILD_PATH="bin/"
 
+INPUT="src/*.c"
 OUTPUT="a.out"
 RAYLIB="$HOME/raylib"
 
@@ -53,13 +54,13 @@ while [ $# -gt 0 ]; do
 done
 
 if [ "$WINDOWS" = true ]; then
-    x86_64-w64-mingw32-gcc src/main.c \
+    x86_64-w64-mingw32-gcc $INPUT \
         -I"$RAYLIB/src" \
         "$RAYLIB/build-mingw/raylib/libraylib.a" \
         -lopengl32 -lgdi32 -lwinmm $WIN_FLAGS \
         -o "$BUILD_PATH/$OUTPUT"
 else
-    gcc src/main.c \
+    gcc $INPUT \
         -I"$RAYLIB/src" \
         "$RAYLIB/src/libraylib.a" \
         -lGL -lm -lpthread -ldl -lrt -lX11 \
