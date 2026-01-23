@@ -1,21 +1,35 @@
 #include "raylib.h"
 #include <stdio.h>
+#include <math.h>
 
 int main(void) {
-    SetConfigFlags(FLAG_WINDOW_TRANSPARENT);
-
     InitWindow(800, 450, "STRAIGHT PROGRAM");
 
-    Font font = LoadFont("/usr/share/fonts/truetype/ubuntu/UbuntuMono-B.ttf");
+    Font font = LoadFont("res/PixelOperator8-Bold.ttf");
+
+    SetTargetFPS(60);
+
+
+    int px = 0, py = 0;
 
     while (!WindowShouldClose()) {
         if (IsKeyPressed(KEY_A))
             printf("JARED ROCKS\n");
 
         BeginDrawing();
-        ClearBackground(BLANK);
-        if (IsKeyDown(KEY_A))
-            DrawTextEx(font, "I love u jared", (Vector2){190, 200}, 80, 10, DARKGRAY);
+        ClearBackground(GRAY);
+        if (IsKeyDown(KEY_A)){
+            double result = sin(GetTime());
+            
+            DrawTextEx(font, "I love u jared", (Vector2){0, (result+1)*90}, 40, ((result + 1) / 2) * 32, WHITE);
+        }
+
+        px += (IsKeyDown(KEY_D) - IsKeyDown(KEY_A)) * 2;
+        py += (IsKeyDown(KEY_S) - IsKeyDown(KEY_W)) * 2;
+        
+        DrawFPS(px,py);
+
+
         EndDrawing();
     }
     CloseWindow();
