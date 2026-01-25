@@ -1,13 +1,16 @@
 #pragma once
-typedef struct Game Game;
+#include "state.h"
 
-typedef struct StateTitleData {
-    
-} StateTitleData;
+typedef struct StateTitle {
+    State base;
+    double time_elapsed;
+} StateTitle;
 
-void state_title_enter(Game *game, StateTitleData *data);
-void state_title_exit(Game *game, StateTitleData *data);
+void state_title_enter(Game *game, State *state);
+void state_title_exit(Game *game, State *state);
 
-void state_title_do_event(Game *game, StateTitleData *data);
-void state_title_do_update(Game *game, StateTitleData *data);
-void state_title_do_draw(Game *game, StateTitleData *data);
+void state_title_do_event(Game *game, State *state);
+void state_title_do_update(Game *game, State *state);
+void state_title_do_draw(Game *game, State *state);
+
+State *state_title();

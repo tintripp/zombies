@@ -1,31 +1,40 @@
-#include "state_title.h"
 #include "raylib.h"
+
 #include "../game.h"
+#include "state_title.h"
+#include "state_play.h"
+
 #include <stdio.h>
 #include <math.h>
 
-void state_title_enter(Game *game, StateTitleData *data){
+void state_title_enter(Game *game, State *state){
+    StateTitle *data = (StateTitle *)state;
+    data->time_elapsed = 0;
+
     printf("Welcome to title time\n");
 }
-void state_title_exit(Game *game, StateTitleData *data){
+void state_title_exit(Game *game, State *state){
     
 }
 
-void state_title_do_event(Game *game, StateTitleData *data){
+void state_title_do_event(Game *game, State *state){
     if (IsKeyPressed(KEY_SPACE))
         printf("JARED ROCKS\n");
     if (IsKeyPressed(KEY_ENTER))
-        game_state_change(game, STATE_PLAY);
+        game_state_change(game, state_play());
 }
-void state_title_do_update(Game *game, StateTitleData *data){
+void state_title_do_update(Game *game, State *state){
+    StateTitle *data = (StateTitle *)state;
+    data->time_elapsed += GetFrameTime();
+}
+void state_title_do_draw(Game *game, State *state){
+    StateTitle *data = (StateTitle *)state;
 
-}
-void state_title_do_draw(Game *game, StateTitleData *data){
     ClearBackground(GRAY);
     
     {
-        double xoff = ((sin(GetTime()) + 1) / 2) * 8;
-        double yoff = (sin(GetTime()*2)) * 50;
+        double xoff = sin(data->time_elapsed + 1) / 2 * 8;
+        double yoff = sin(data->time_elapsed * 2) * 50;
 
         char *msg = "I love u jared";
         int fontsize = 16;
@@ -45,4 +54,17 @@ void state_title_do_draw(Game *game, StateTitleData *data){
         );
     }
     
+}
+
+State *state_title() {
+    static StateTitle state = {
+        .base = {
+            .enter = state_title_enter,
+            .exit = state_title_exit,
+            .do_event = state_title_do_event,
+            .do_update = state_title_do_update,
+            .do_draw = state_title_do_draw
+        }
+    };
+    return &state.base;
 }
