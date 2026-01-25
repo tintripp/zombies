@@ -57,6 +57,17 @@ void game_loop(Game *game){
 }
 
 void game_do_event(Game *game){
+    if (
+        IsKeyPressed(KEY_F11) ||
+
+        // either alt + enter
+        ((IsKeyDown(KEY_LEFT_ALT) || IsKeyDown(KEY_RIGHT_ALT)) && 
+        IsKeyPressed(KEY_ENTER))
+    ){
+        ToggleFullscreen();
+        return; // state shouldn't process a fullscreen req
+    }
+
     switch(game->state) {
         case STATE_TITLE:
             state_title_do_event(game, &game->state_title_data); break;
