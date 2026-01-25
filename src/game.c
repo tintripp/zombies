@@ -1,5 +1,6 @@
 #include "game.h"
 #include "raylib.h"
+#include <stdio.h>
 
 void game_init(Game *game){
     game->done = false;
@@ -8,10 +9,14 @@ void game_init(Game *game){
     game->state_next = STATE_TITLE;
     game->state_done = true;
 
-    InitWindow(800, 450, "STRAIGHT PROGRAM");
-    SetExitKey(KEY_NULL);
-    SetTargetFPS(60);
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 
+    InitWindow(GAME_VSCREEN_WIDTH * 2, GAME_VSCREEN_HEIGHT * 2, GAME_TITLE);
+    SetWindowMinSize(GAME_VSCREEN_WIDTH, GAME_VSCREEN_HEIGHT);
+    SetTargetFPS(60);
+    SetExitKey(KEY_NULL);
+
+    game->vscreen = LoadRenderTexture(GAME_VSCREEN_WIDTH, GAME_VSCREEN_HEIGHT);
     game->font = LoadFont("res/PixelOperator8-Bold.ttf");
 
 }
@@ -46,6 +51,8 @@ void game_loop(Game *game){
         game_do_update(game);
         game_do_draw(game);
     }
+
+    UnloadRenderTexture(game->vscreen);
     CloseWindow();
 }
 
@@ -68,13 +75,41 @@ void game_do_update(Game *game){
 }
 
 void game_do_draw(Game *game){
-    BeginDrawing();
+    BeginTextureMode(game->vscreen);
     switch(game->state) {
         case STATE_TITLE:
             state_title_do_draw(game, &game->state_title_data); break;
         case STATE_PLAY:
             state_play_do_draw(game, &game->state_play_data); break;
     }
+    EndTextureMode();
+
+    BeginDrawing();
+        ClearBackground(BLACK);
+
+        int xmult = GetScreenWidth() / GAME_VSCREEN_WIDTH;
+        int ymult = GetScreenHeight() / GAME_VSCREEN_HEIGHT;
+        if (xmult < ymult) ymult = xmult;
+        if (ymult < xmult) xmult = ymult;
+
+        
+
+        DrawTexturePro(
+            game->vscreen.texture, 
+
+            (Rectangle){0, 0, 
+                (float)GAME_VSCREEN_WIDTH, -(float)GAME_VSCREEN_HEIGHT},
+            
+            (Rectangle){ 
+                (GetScreenWidth() - (GAME_VSCREEN_WIDTH * xmult)) / 2, 
+                (GetScreenHeight() - (GAME_VSCREEN_HEIGHT * ymult)) / 2, 
+                (float)GAME_VSCREEN_WIDTH * xmult, 
+                (float)GAME_VSCREEN_HEIGHT * ymult, 
+            },
+
+            (Vector2){ 0, 0 }, 0, WHITE
+            
+        );
     EndDrawing();
 }
 

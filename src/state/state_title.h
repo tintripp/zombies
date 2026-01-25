@@ -2,7 +2,7 @@
 typedef struct Game Game;
 
 typedef struct StateTitleData {
-    int px, py;
+    
 } StateTitleData;
 
 void state_title_enter(Game *game, StateTitleData *data);

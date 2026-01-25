@@ -3,7 +3,12 @@
 #include "state/states.h"
 #include <stdbool.h>
 
+#define GAME_VSCREEN_WIDTH  240
+#define GAME_VSCREEN_HEIGHT 180
+#define GAME_TITLE "STRAIGHT PROGRAM"
+
 typedef struct Game {
+    RenderTexture vscreen; // Virtual screen
     Font font;
     bool done;
 
