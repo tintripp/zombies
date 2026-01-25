@@ -45,5 +45,4 @@ void state_title_do_draw(Game *game, StateTitleData *data){
         );
     }
     
-    DrawTextEx(game->font, TextFormat("%i", GetFPS()), (Vector2){0, 0}, 16, 0, PINK);
 }

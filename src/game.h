@@ -3,8 +3,8 @@
 #include "state/states.h"
 #include <stdbool.h>
 
-#define GAME_VSCREEN_WIDTH  480
-#define GAME_VSCREEN_HEIGHT 360
+#define GAME_VSCREEN_WIDTH  320
+#define GAME_VSCREEN_HEIGHT 224
 #define GAME_TITLE "STRAIGHT PROGRAM"
 
 typedef struct Game {

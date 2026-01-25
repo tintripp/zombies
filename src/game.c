@@ -76,12 +76,20 @@ void game_do_update(Game *game){
 
 void game_do_draw(Game *game){
     BeginTextureMode(game->vscreen);
-    switch(game->state) {
-        case STATE_TITLE:
-            state_title_do_draw(game, &game->state_title_data); break;
-        case STATE_PLAY:
-            state_play_do_draw(game, &game->state_play_data); break;
-    }
+        switch(game->state) {
+            case STATE_TITLE:
+                state_title_do_draw(game, &game->state_title_data); break;
+            case STATE_PLAY:
+                state_play_do_draw(game, &game->state_play_data); break;
+        }
+        
+        // FPS (test)
+        DrawTextEx(
+            game->font, 
+            TextFormat("%i", GetFPS()), 
+            (Vector2){0, 0}, 
+            8, 0, BLUE
+        );
     EndTextureMode();
 
     BeginDrawing();
