@@ -22,7 +22,7 @@ void state_play_exit(Game *game, State *s) {
 void state_play_do_event(Game *game, State *s) {
     
     if (IsKeyPressed(KEY_BACKSLASH))
-        game_exit(game);
+        game_request_exit(game);
     if (IsKeyPressed(KEY_ENTER))
         game_state_change(game, state_title());
 

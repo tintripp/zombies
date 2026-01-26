@@ -9,7 +9,6 @@ void game_init(Game *game){
     game->done = false;
 
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-
     InitWindow(GAME_VSCREEN_WIDTH * 2, GAME_VSCREEN_HEIGHT * 2, GAME_TITLE);
     SetWindowMinSize(GAME_VSCREEN_WIDTH, GAME_VSCREEN_HEIGHT);
     SetTargetFPS(60);
@@ -21,19 +20,21 @@ void game_init(Game *game){
     game_state_change(game, state_title());
 
 }
-void game_exit(Game *game){
-    game->done = true;
+void game_cleanup(Game *game){
+    UnloadRenderTexture(game->vscreen);
+    CloseWindow();
 }
 
 void game_loop(Game *game){
+    game_init(game);
+
     while (!WindowShouldClose() && !game->done){
         game_do_event(game);
         game_do_update(game);
         game_do_draw(game);
     }
 
-    UnloadRenderTexture(game->vscreen);
-    CloseWindow();
+    game_cleanup(game);
 }
 
 void game_do_event(Game *game){
@@ -102,4 +103,8 @@ void game_state_change(Game *game, State *next){
     game->state = next;
 
     game->state->enter(game, game->state);
+}
+
+void game_request_exit(Game *game){
+    game->done = true;
 }

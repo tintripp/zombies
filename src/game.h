@@ -16,7 +16,7 @@ typedef struct Game {
 } Game;
 
 void game_init(Game *game);
-void game_exit(Game *game);
+void game_cleanup(Game *game);
 
 void game_loop(Game *game);
 void game_do_event(Game *game);
@@ -24,3 +24,4 @@ void game_do_update(Game *game);
 void game_do_draw(Game *game);
 
 void game_state_change(Game *game, State *next);
+void game_request_exit(Game *game);
