@@ -1,0 +1,6 @@
+Next Goal:
+    Make a DYNAMIC array of players! 
+    They should be able to leave and join at will. 
+    When a new controller is connected, create a new player for them.
+    (Player struct should know about the Controller that controls it!!)
+
