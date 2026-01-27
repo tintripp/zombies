@@ -21,6 +21,8 @@ void game_init(Game *game){
 
 }
 void game_cleanup(Game *game){
+    game->state->exit(game, game->state);
+    
     UnloadRenderTexture(game->vscreen);
     CloseWindow();
 }
