@@ -11,11 +11,9 @@ typedef enum TileType {
 } TileType;
 
 typedef struct TileMap {
+    // a flattened 2d array containing map tiles.
     TileType *tiles;
     int w, h;
-
-    char *json_str;
-    cJSON *json;
 } TileMap;
 
 // futureproofing, it will return 0 on success
@@ -24,4 +22,5 @@ int tilemap_loadJSON(TileMap *tilemap, const char *filepath);
 void tilemap_free(TileMap *tilemap);
 void tilemap_draw(TileMap *tilemap);
 
+TileMap tilemap_tiles_behind(TileMap *tilemap, Rectangle rect);
 TileType tilemap_get_at(TileMap *tilemap, int row, int col);

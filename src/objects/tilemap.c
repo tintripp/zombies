@@ -11,6 +11,11 @@ TileType tilemap_deduce_type(char *type){
     return TILE_AIR;    
 }
 
+
+TileMap tilemap_tiles_behind(TileMap *tilemap, Rectangle rect){
+
+}
+
 TileType tilemap_get_at(TileMap *tilemap, int row, int col){
     if (row < 0 || row >= tilemap->h || col < 0 || col >= tilemap->w)
         return TILE_AIR;
@@ -18,25 +23,25 @@ TileType tilemap_get_at(TileMap *tilemap, int row, int col){
 }
 
 int tilemap_loadJSON(TileMap *tilemap, const char *filepath){
-    tilemap->json_str = LoadFileText(filepath);
-    if (!tilemap->json_str){
+    char *json_str = LoadFileText(filepath);
+    if (!json_str){
         printf("Could not open the file!!");
         return 1;
     }
 
-    tilemap->json = cJSON_Parse(tilemap->json_str);
-    if (!tilemap->json){
+    cJSON *json = cJSON_Parse(json_str);
+    if (!json){
         printf("Could not parse the file!! %s", cJSON_GetErrorPtr());
-        free(tilemap->json_str);
+        free(json_str);
         return 1;
     }
 
-    int width = cJSON_GetObjectItem(tilemap->json, "width")->valueint;
-    int height = cJSON_GetObjectItem(tilemap->json, "height")->valueint;
+    int width = cJSON_GetObjectItem(json, "width")->valueint;
+    int height = cJSON_GetObjectItem(json, "height")->valueint;
 
     TileType *tiles = calloc(width * height, sizeof(TileType));
 
-    cJSON *json_arr = cJSON_GetObjectItem(tilemap->json, "tiles");
+    cJSON *json_arr = cJSON_GetObjectItem(json, "tiles");
 
     for (int i = 0; i < cJSON_GetArraySize(json_arr); i++){
         cJSON *tile = cJSON_GetArrayItem(json_arr, i);
@@ -51,6 +56,9 @@ int tilemap_loadJSON(TileMap *tilemap, const char *filepath){
 
         tiles[r * width + c] = tilemap_deduce_type(type_str);
     }
+    
+    cJSON_Delete(json);
+    free(json_str);
 
     // finally, assign.
     tilemap->w = width;
@@ -60,8 +68,7 @@ int tilemap_loadJSON(TileMap *tilemap, const char *filepath){
     return 0;
 }
 void tilemap_free(TileMap *tilemap){
-    cJSON_Delete(tilemap->json);
-    free(tilemap->json_str);
+    free(tilemap->tiles);
 }
 
 void tilemap_draw(TileMap *tilemap){
