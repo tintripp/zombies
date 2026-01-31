@@ -33,7 +33,7 @@ void state_play_do_event(Game *game, State *s) {
     if (IsKeyPressed(KEY_ENTER))
         game_state_change(game, state_title());
 
-    player_event(&data->plr);
+    player_event(&data->plr, &data->tiles);
 
 }
 void state_play_do_update(Game *game, State *s) {

@@ -25,11 +25,11 @@ struct Player{
 void player_init(Player *player);
 void player_free(Player *player);
 
-void player_event(Player *player);
+void player_event(Player *player, TileMap *tilemap);
 void player_update(Player *player, TileMap *tiles);
 void player_draw(Player *player);
 
 
 
 void player_move(Player *player, TileMap *tiles, Vector2 dv);
-void player_is_on_ground(Player *player, TileMap *tiles); //todo
+bool player_is_on_ground(Player *player, TileMap *tilemap); 
