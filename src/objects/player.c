@@ -23,11 +23,14 @@ void player_free(Player *player){
     UnloadTexture(player->sprite);
 }
 
-void player_event(Player *player, TileMap *tilemap){
-    if (IsKeyPressed(KEY_W) && player_is_on_ground(player, tilemap))
-        player->velocity.y = -160;
-}
 void player_update(Player *player, TileMap *tilemap){
+    if (IsKeyPressed(KEY_W) && player_is_on_ground(player, tilemap))
+        player->velocity.y = -190;
+    
+    // change to check if state == jumping
+    if (IsKeyReleased(KEY_W) && player->velocity.y < -50) 
+        player->velocity.y = -50;
+
     player->velocity.x += (
         IsKeyDown(KEY_D) - IsKeyDown(KEY_A)
     ) * player->speed;
@@ -38,7 +41,11 @@ void player_update(Player *player, TileMap *tilemap){
     if (player->velocity.x > 0) player->dir = PLRDIR_RIGHT;
 
     //gravity
-    player->velocity.y += 360 * GetFrameTime();
+    // if jumping grav lower
+    int grav = 1000;
+    if (IsKeyDown(KEY_W) && player->velocity.y < 0)
+    grav = 360;
+    player->velocity.y += grav * GetFrameTime();
     
     player_move(player, tilemap, Vector2Scale(player->velocity, GetFrameTime()));
 }

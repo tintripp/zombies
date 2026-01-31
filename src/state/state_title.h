@@ -9,7 +9,6 @@ typedef struct StateTitle {
 void state_title_enter(Game *game, State *state);
 void state_title_exit(Game *game, State *state);
 
-void state_title_do_event(Game *game, State *state);
 void state_title_do_update(Game *game, State *state);
 void state_title_do_draw(Game *game, State *state);
 

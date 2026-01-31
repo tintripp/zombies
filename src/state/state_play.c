@@ -25,19 +25,13 @@ void state_play_exit(Game *game, State *s) {
     player_free(&data->plr);
 }
 
-void state_play_do_event(Game *game, State *s) {
+void state_play_do_update(Game *game, State *s) {
     StatePlay *data = (StatePlay *)s;
     
     if (IsKeyPressed(KEY_BACKSLASH))
         game_request_exit(game);
     if (IsKeyPressed(KEY_ENTER))
         game_state_change(game, state_title());
-
-    player_event(&data->plr, &data->tiles);
-
-}
-void state_play_do_update(Game *game, State *s) {
-    StatePlay *data = (StatePlay *)s;
 
     player_update(&data->plr, &data->tiles);
 }
@@ -58,7 +52,6 @@ State *state_play() {
         .base = {
             .enter = state_play_enter,
             .exit = state_play_exit,
-            .do_event = state_play_do_event,
             .do_update = state_play_do_update,
             .do_draw = state_play_do_draw
         },

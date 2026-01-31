@@ -17,14 +17,14 @@ void state_title_exit(Game *game, State *state){
     
 }
 
-void state_title_do_event(Game *game, State *state){
+void state_title_do_update(Game *game, State *state){
+    StateTitle *data = (StateTitle *)state;
+
     if (IsKeyPressed(KEY_SPACE))
         printf("JARED ROCKS\n");
     if (IsKeyPressed(KEY_ENTER))
         game_state_change(game, state_play());
-}
-void state_title_do_update(Game *game, State *state){
-    StateTitle *data = (StateTitle *)state;
+
     data->time_elapsed += GetFrameTime();
 }
 void state_title_do_draw(Game *game, State *state){
@@ -61,7 +61,6 @@ State *state_title() {
         .base = {
             .enter = state_title_enter,
             .exit = state_title_exit,
-            .do_event = state_title_do_event,
             .do_update = state_title_do_update,
             .do_draw = state_title_do_draw
         }

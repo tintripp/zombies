@@ -20,7 +20,6 @@ void game_init(Game *game);
 void game_free(Game *game);
 
 void game_loop(Game *game);
-void game_do_event(Game *game);
 void game_do_update(Game *game);
 void game_do_draw(Game *game);
 

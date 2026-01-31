@@ -35,7 +35,6 @@ void game_loop(Game *game){
     game_init(game);
 
     while (!WindowShouldClose() && !game->done){
-        game_do_event(game);
         game_do_update(game);
         game_do_draw(game);
     }
@@ -43,7 +42,7 @@ void game_loop(Game *game){
     game_free(game);
 }
 
-void game_do_event(Game *game){
+void game_do_update(Game *game){
     if (
         IsKeyPressed(KEY_F11) ||
 
@@ -55,10 +54,6 @@ void game_do_event(Game *game){
         return; // state shouldn't process a fullscreen req
     }
 
-    game->state->do_event(game, game->state);
-}
-
-void game_do_update(Game *game){
     game->state->do_update(game, game->state);
 }
 
